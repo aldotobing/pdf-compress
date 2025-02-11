@@ -1,6 +1,6 @@
 # 📄 PDF Compressor
 
-**Easily compress your PDFs in seconds! This lightweight, fast, and user-friendly tool makes handling PDFs hassle-free. All processes run entirely on the client side, ensuring your files never leave your device.**
+**Easily compress your PDFs in seconds! This lightweight, fast, and user-friendly tool makes handling PDFs hassle-free. All processes run entirely on the client side. Your files are processed locally and never leave your device, ensuring maximum privacy and security.**
 
 ## 🚀 Features
 
