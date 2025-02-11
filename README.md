@@ -28,7 +28,7 @@ Built with **React, Framer Motion, and TypeScript**, it’s sleek, modern, and e
 ### 1️⃣ Clone the repo
 
 ```sh
-git clone https://github.com/aldotobing/pdf-compressor.git
+git clone https://github.com/aldotobing/pdf-compress.git
 cd pdf-compressor
 ```
 
