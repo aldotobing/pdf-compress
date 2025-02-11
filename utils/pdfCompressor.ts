@@ -1,41 +1,53 @@
-import { PDFDocument } from "pdf-lib"
-import type { CompressionLevel } from "../types"
+import { PDFDocument } from "pdf-lib";
+import type { CompressionLevel } from "../types";
 
 export async function compressPDF(
   file: File,
   compressionLevel: CompressionLevel,
-  onProgress: (progress: number) => void,
+  onProgress: (progress: number) => void
 ): Promise<Blob> {
-  const arrayBuffer = await file.arrayBuffer()
-  const pdfDoc = await PDFDocument.load(arrayBuffer)
+  const arrayBuffer = await file.arrayBuffer();
+  const pdfDoc = await PDFDocument.load(arrayBuffer);
+  const totalPages = pdfDoc.getPageCount();
 
-  const totalPages = pdfDoc.getPageCount()
+  // Enhanced compression settings
+  const compressionSettings = {
+    low: {
+      useObjectStreams: true,
+      objectsPerTick: 100,
+      updateMetadata: false,
+      preserveObjects: true,
+    },
+    medium: {
+      useObjectStreams: true,
+      objectsPerTick: 50,
+      updateMetadata: false,
+      preserveObjects: false,
+    },
+    high: {
+      useObjectStreams: true,
+      objectsPerTick: 20,
+      updateMetadata: false,
+      preserveObjects: false,
+      // Additional aggressive settings
+      removeUnusedObjects: true,
+      compressStreams: true,
+    },
+  };
 
+  // Process each page
   for (let i = 0; i < totalPages; i++) {
-    const page = pdfDoc.getPage(i)
-    const { width, height } = page.getSize()
-
-    // Apply compression based on the selected level
-    let scale: number
-    switch (compressionLevel) {
-      case "low":
-        scale = 0.9
-        break
-      case "medium":
-        scale = 0.7
-        break
-      case "high":
-        scale = 0.5
-        break
-    }
-
-    page.scale(scale, scale)
-
-    // Update progress
-    onProgress(Math.round(((i + 1) / totalPages) * 100))
+    const page = pdfDoc.getPages()[i];
+    onProgress(Math.round(((i + 1) / totalPages) * 100));
   }
 
-  const pdfBytes = await pdfDoc.save()
-  return new Blob([pdfBytes], { type: "application/pdf" })
-}
+  // Apply compression
+  const settings = compressionSettings[compressionLevel];
+  const pdfBytes = await pdfDoc.save({
+    ...settings,
+    addDefaultPage: false,
+    updateFieldAppearances: false,
+  });
 
+  return new Blob([pdfBytes], { type: "application/pdf" });
+}

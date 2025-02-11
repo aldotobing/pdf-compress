@@ -3,18 +3,20 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { motion } from "framer-motion";
-import { FiUploadCloud, FiFile } from "react-icons/fi";
+import { FiUploadCloud, FiFile, FiX } from "react-icons/fi";
 
 interface FileUploaderProps {
   onFileUpload: (files: File[]) => void;
   maxFiles: number;
   files: File[];
+  onRemoveFile: (index: number) => void;
 }
 
 export default function FileUploader({
   onFileUpload,
   maxFiles,
   files,
+  onRemoveFile, // Tambahkan props
 }: FileUploaderProps) {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -81,10 +83,18 @@ export default function FileUploader({
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="flex items-center text-sm text-gray-600 bg-gray-100 rounded-md p-2"
+                className="flex items-center justify-between text-sm text-gray-600 bg-gray-100 rounded-md p-2"
               >
-                <FiFile className="mr-2 text-blue-500" />
-                {file.name}
+                <div className="flex items-center">
+                  <FiFile className="mr-2 text-blue-500" />
+                  {file.name}
+                </div>
+                <button
+                  onClick={() => onRemoveFile(index)}
+                  className="text-red-500 hover:text-red-700 transition"
+                >
+                  <FiX />
+                </button>
               </motion.li>
             ))}
           </ul>
