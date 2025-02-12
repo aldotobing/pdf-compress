@@ -76,20 +76,29 @@ export default function CompressionOptions({
               className="absolute transform -translate-x-1/2 text-center"
               style={{ left: `${value}%` }}
             >
-              <div
-                className={`h-2 w-0.5 bg-gray-400 mb-1 mx-auto ${
-                  Math.abs(compressionLevel - value) < 5 ? "bg-blue-600" : ""
-                }`}
+              <motion.div
+                animate={{
+                  scale: Math.abs(compressionLevel - value) < 5 ? 1.2 : 1,
+                  backgroundColor:
+                    Math.abs(compressionLevel - value) < 5
+                      ? "#2563eb"
+                      : "#94a3b8",
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="h-2 w-0.5 mb-1 mx-auto"
               />
-              <span
-                className={`text-xs md:text-sm font-medium ${
-                  Math.abs(compressionLevel - value) < 5
-                    ? "text-blue-600"
-                    : "text-gray-600"
-                }`}
+              <motion.span
+                animate={{
+                  color:
+                    Math.abs(compressionLevel - value) < 5
+                      ? "#2563eb"
+                      : "#4b5563",
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="text-xs md:text-sm font-medium"
               >
                 {label}
-              </span>
+              </motion.span>
             </div>
           ))}
         </div>
@@ -99,6 +108,7 @@ export default function CompressionOptions({
           key={compressionLevel}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
           className="mt-6 text-center"
         >
           <span className="text-xl md:text-2xl font-bold text-blue-600">
