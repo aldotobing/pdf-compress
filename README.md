@@ -1,12 +1,13 @@
 # 📄 PDF Compressor
 
-**Easily compress your PDFs in seconds! This lightweight, fast, and user-friendly tool makes handling PDFs hassle-free. All processes run entirely on the client side. Your files are processed locally and never leave your device, ensuring maximum privacy and security.**
+**Easily compress and merge your PDFs in seconds! This lightweight, fast, and user-friendly tool makes handling PDFs hassle-free. All processes run entirely on the client side. Your files are processed locally and never leave your device, ensuring maximum privacy and security.**
 
 ## 🚀 Features
 
 ✅ **Drag & Drop** Upload – No more clicking around! Just drop your files in.  
 ✅ **Custom Compression Levels** – Choose between **Low**, **Medium**, or **High** quality.  
 ✅ **Batch Processing** – Compress up to **5 PDFs at once** effortlessly.  
+✅ **PDF Merge** – Combine multiple PDFs into one because **why not**?
 ✅ **Real-time Progress** – See the compression happening live!  
 ✅ **Instant Download** – Get your compressed files **immediately** after processing.
 
@@ -18,6 +19,7 @@ Large PDF files **slow you down** – whether you're emailing, sharing, or stori
 📩 **Send files faster**  
 📂 **Save storage space**  
 ⚡ **Boost loading speed** for web-based documents
+📑 **Simplify organization** with merged PDFs
 
 Built with **React, Framer Motion, and TypeScript**, it’s sleek, modern, and efficient!
 
