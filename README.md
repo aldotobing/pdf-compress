@@ -18,7 +18,7 @@
 Large PDF files **slow you down** – whether you're emailing, sharing, or storing them. This tool helps you:  
 📩 **Send files faster**  
 📂 **Save storage space**  
-⚡ **Boost loading speed** for web-based documents
+⚡ **Boost loading speed** for web-based documents  
 📑 **Simplify organization** with merged PDFs
 
 Built with **React, Framer Motion, and TypeScript**, it’s sleek, modern, and efficient!
@@ -31,7 +31,7 @@ Built with **React, Framer Motion, and TypeScript**, it’s sleek, modern, and e
 
 ```sh
 git clone https://github.com/aldotobing/pdf-compress.git
-cd pdf-compressor
+cd pdf-compress
 ```
 
 ### 2️⃣ Install dependencies
@@ -62,10 +62,12 @@ Now open **`http://localhost:3000`** in your browser! 🎉
 
 ## 📌 Usage
 
-1️⃣ **Upload PDFs** (Max 5 at a time)  
-2️⃣ **Set compression level** (Low, Medium, or High)  
-3️⃣ **Hit "Compress PDFs"**  
-4️⃣ **Download your optimized files** 🎯
+1️⃣ Upload PDFs (Max 5 at a time for compression)  
+2️⃣ Set compression level (Low, Medium, or High)  
+3️⃣ Hit "Compress PDFs" for optimized files  
+4️⃣ Need to merge PDFs? Select multiple files and click "Merge PDFs"  
+5️⃣ Download your optimized or merged files 🎯  
+
 
 ---
 
