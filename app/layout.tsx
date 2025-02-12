@@ -6,39 +6,42 @@ import type React from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PDF Compressor - Free & Fast PDF Compression Online",
+  title: "PDF Utility Tool - Compress & Merge PDFs Online",
   description:
-    "Compress your PDF files easily and efficiently without losing quality. Free and fast PDF compression web app.",
-  generator: "Aldo",
+    "Compress and merge your PDF files easily and efficiently with our free and fast online tool. Reduce file sizes for storage and sharing, or merge multiple PDFs into one for seamless organization.",
+  generator: "Aldo Tobing",
   keywords: [
+    "PDF utility",
     "PDF compressor",
+    "merge PDF",
     "compress PDF",
     "reduce PDF size",
-    "free PDF compression",
+    "free PDF tool",
     "PDF optimization",
+    "merge PDFs",
   ],
-  applicationName: "PDF Compressor",
+  applicationName: "PDF Utility Tool",
   openGraph: {
-    title: "PDF Compressor - Free & Fast PDF Compression Online",
+    title: "PDF Utility Tool - Compress & Merge PDFs Online",
     description:
-      "Compress your PDF files easily and efficiently without losing quality.",
+      "Compress and merge your PDF files easily and efficiently without losing quality. Free and fast online tool for optimizing your PDFs.",
     url: "https://pdf-compress.aldotobing.online",
-    siteName: "PDF Compressor",
+    siteName: "PDF Utility Tool",
     images: [
       {
         url: "https://pdf-compress.aldotobing.online/assets/img/pdf.jpg",
         width: 1200,
         height: 630,
-        alt: "PDF Compressor Preview",
+        alt: "PDF Utility Tool Preview",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PDF Compressor - Free & Fast PDF Compression Online",
+    title: "PDF Utility Tool - Compress & Merge PDFs Online",
     description:
-      "Compress your PDF files easily and efficiently without losing quality.",
+      "Compress and merge your PDF files easily and efficiently without losing quality.",
     images: ["https://pdf-compress.aldotobing.online/assets/img/pdf.jpg"],
   },
   alternates: {
@@ -55,7 +58,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="robots" content="index, follow" />
-        <meta name="author" content="Aldo" />
+        <meta name="author" content="Aldo Tobing" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />
         <script
@@ -64,10 +67,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              name: "PDF Compressor",
+              name: "PDF Utility Tool",
               url: "https://pdf-compress.aldotobing.online",
               description:
-                "Compress your PDF files easily and efficiently without losing quality.",
+                "Compress and merge your PDF files easily and efficiently with our free online tool.",
               applicationCategory: "Utility",
               operatingSystem: "All",
             }),
