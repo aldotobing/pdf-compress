@@ -8,6 +8,8 @@ import CompressionProgress from "../components/CompressionProgress";
 import DownloadSection from "../components/DownloadSection";
 import { compressPDF } from "../utils/pdfCompressor";
 import type { CompressedFile, CompressionLevel } from "../types";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);

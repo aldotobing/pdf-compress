@@ -4,6 +4,9 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { motion } from "framer-motion";
 import { FiUploadCloud, FiFile, FiX } from "react-icons/fi";
+import { Document, Page, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.js";
 
 interface FileUploaderProps {
   onFileUpload: (files: File[]) => void;
@@ -16,7 +19,7 @@ export default function FileUploader({
   onFileUpload,
   maxFiles,
   files,
-  onRemoveFile, // Tambahkan props
+  onRemoveFile,
 }: FileUploaderProps) {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -66,6 +69,7 @@ export default function FileUploader({
           </motion.div>
         </div>
       </motion.div>
+
       {files.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -76,28 +80,45 @@ export default function FileUploader({
           <h3 className="text-lg font-semibold mb-3 text-gray-700">
             Selected Files:
           </h3>
-          <ul className="space-y-2">
+          {/* Grid layout for files */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {files.map((file, index) => (
-              <motion.li
+              <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="flex items-center justify-between text-sm text-gray-600 bg-gray-100 rounded-md p-2"
+                className="relative bg-gray-100 rounded-lg p-4 shadow-md flex flex-col items-center"
               >
-                <div className="flex items-center">
+                <div className="flex items-center mb-2 w-full">
                   <FiFile className="mr-2 text-blue-500" />
-                  {file.name}
+                  <span className="text-sm truncate">{file.name}</span>
+                </div>
+                <div
+                  className="pdf-preview overflow-hidden flex justify-center items-center"
+                  style={{ maxWidth: "100%", maxHeight: "200px" }}
+                >
+                  <Document
+                    file={file}
+                    onLoadError={(error) =>
+                      console.error("Error loading PDF:", error)
+                    }
+                  >
+                    <Page
+                      pageNumber={1}
+                      width={150} // Ensure it fits within its container
+                    />
+                  </Document>
                 </div>
                 <button
                   onClick={() => onRemoveFile(index)}
-                  className="text-red-500 hover:text-red-700 transition"
+                  className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition"
                 >
                   <FiX />
                 </button>
-              </motion.li>
+              </motion.div>
             ))}
-          </ul>
+          </div>
         </motion.div>
       )}
     </div>
