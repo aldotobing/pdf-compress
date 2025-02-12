@@ -7,7 +7,7 @@
 ✅ **Drag & Drop** Upload – No more clicking around! Just drop your files in.  
 ✅ **Custom Compression Levels** – Choose between **Low**, **Medium**, or **High** quality.  
 ✅ **Batch Processing** – Compress up to **5 PDFs at once** effortlessly.  
-✅ **PDF Merge** – Combine multiple PDFs into one because **why not**?
+✅ **PDF Merge** – Combine multiple PDFs into one because **why not**?  
 ✅ **Real-time Progress** – See the compression happening live!  
 ✅ **Instant Download** – Get your compressed files **immediately** after processing.
 
