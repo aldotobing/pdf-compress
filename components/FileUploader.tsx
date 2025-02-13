@@ -55,13 +55,13 @@ export default function FileUploader({
             animate={{ y: isDragActive ? -10 : 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 10 }}
           >
-            <FiUploadCloud className="mx-auto text-5xl text-blue-500 mb-4" />
+            <FiUploadCloud className="mx-auto text-5xl text-blue-500 mb-4 antialiased" />
             {isDragActive ? (
-              <p className="text-blue-500 font-semibold">
+              <p className="text-blue-500 font-semibold antialiased">
                 Drop the PDF files here ...
               </p>
             ) : (
-              <p className="text-gray-600">
+              <p className="text-gray-600 antialiased">
                 Drag & drop up to {maxFiles} PDF files here, or click to select
                 files
               </p>
@@ -80,8 +80,12 @@ export default function FileUploader({
           <h3 className="text-lg font-semibold mb-3 text-gray-700">
             Selected Files:
           </h3>
-          {/* Grid layout for files */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {/* Prevent overflow */}
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${
+              files.length > 5 ? 5 : files.length
+            } gap-4`}
+          >
             {files.map((file, index) => (
               <motion.div
                 key={index}
@@ -104,10 +108,7 @@ export default function FileUploader({
                       console.error("Error loading PDF:", error)
                     }
                   >
-                    <Page
-                      pageNumber={1}
-                      width={150} // Ensure it fits within its container
-                    />
+                    <Page pageNumber={1} width={150} />
                   </Document>
                 </div>
                 <button

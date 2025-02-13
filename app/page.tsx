@@ -9,6 +9,7 @@ import { compressPDF } from "../utils/pdfCompressor";
 import { mergePDFs } from "../utils/pdfMerger";
 import type { CompressedFile, CompressionLevel } from "../types";
 import DownloadSection from "../components/DownloadSection";
+import { FiPlus } from "react-icons/fi";
 
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -27,7 +28,7 @@ export default function Home() {
   const compressionPresets = {
     low: 20,
     medium: 50,
-    high: 70,
+    high: 80,
   };
 
   const [compressionLevel, setCompressionLevel] = useState<number>(
@@ -83,7 +84,6 @@ export default function Home() {
     try {
       const result = await mergePDFs(files);
       setMergedFile(result);
-      // Generate a unique filename based on the current time
       const uniqueName =
         "merged_" + new Date().toISOString().replace(/[:.-]/g, "") + ".pdf";
       setMergeFileName(uniqueName);
@@ -93,7 +93,26 @@ export default function Home() {
     setIsProcessing(false);
   };
 
-  // Shared action button classes
+  // Reset all states without reloading the page
+  const handleReset = () => {
+    // Clean up object URLs for compressed files
+    compressedFiles.forEach((file) => URL.revokeObjectURL(file.downloadUrl));
+
+    // Clean up merged file URL if needed
+    if (mergedFile) {
+      const mergedFileUrl = URL.createObjectURL(mergedFile);
+      URL.revokeObjectURL(mergedFileUrl);
+    }
+
+    // Then reset the states
+    setFiles([]);
+    setCompressedFiles([]);
+    setMergedFile(null);
+    setMergeFileName("");
+    setProgress([]);
+    setIsProcessing(false);
+  };
+
   const actionButtonClasses =
     "mt-8 w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed";
 
@@ -105,20 +124,30 @@ export default function Home() {
         transition={{ duration: 0.6 }}
         className="max-w-4xl mx-auto"
       >
-        <h1 className="text-5xl font-extrabold text-center text-gray-900 mb-8">
-          PDF Utility Tool
-        </h1>
-        <p className="text-lg text-center text-gray-700 mb-10">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-center text-gray-900 mb-4 anti-aliasing"
+        >
+          PDF Utility
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-sm sm:text-base md:text-lg text-center text-gray-700 mb-6 anti-aliasing"
+        >
           Choose between compressing or merging your PDF files for efficient
           management.
           <br />
-          <span className="text-gray-600 font-medium">
-            Compress to reduce file sizes for easier storage and sharing, or
-            merge multiple PDFs into one for seamless organization.
+          <span className="text-gray-600 font-medium anti-aliasing">
+            <b>Compress</b> to reduce file sizes for easier storage and sharing,
+            or <b>merge</b> multiple PDFs into one for seamless organization.
           </span>
-        </p>
+        </motion.p>
 
-        {/* Redesigned Toggle Switch */}
+        {/* Toggle Switch */}
         <div className="relative w-64 h-12 mx-auto bg-gray-100 rounded-full flex items-center overflow-hidden shadow-md mb-8">
           <motion.div
             className="absolute top-1 left-1 h-10 w-[48%] bg-blue-600 rounded-full"
@@ -143,14 +172,14 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Animate the FileUploader with mode changes */}
+        {/* File Uploader */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentMode + "-uploader"}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0, y: -50, scale: 0.8, rotate: -10 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, y: 50, scale: 0.8, rotate: 10 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <FileUploader
               onFileUpload={handleFileUpload}
@@ -161,7 +190,7 @@ export default function Home() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Animate mode-specific content */}
+        {/* Mode-specific Content */}
         <AnimatePresence mode="wait">
           {currentMode === "compress" && (
             <motion.div
@@ -189,7 +218,10 @@ export default function Home() {
                 <CompressionProgress files={files} progress={progress} />
               )}
               {compressedFiles.length > 0 && (
-                <DownloadSection compressedFiles={compressedFiles} />
+                <DownloadSection
+                  compressedFiles={compressedFiles}
+                  onReset={handleReset}
+                />
               )}
             </motion.div>
           )}
@@ -197,9 +229,9 @@ export default function Home() {
           {currentMode === "merge" && (
             <motion.div
               key="merge-content"
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
+              exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.5 }}
               className="bg-white rounded-2xl shadow-lg overflow-hidden mt-6 p-8 sm:p-10"
             >
@@ -224,16 +256,16 @@ export default function Home() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="mt-8 bg-gradient-to-r from-blue-100 to-green-100 p-6 rounded-xl shadow-md text-center"
+                  className="mt-8 bg-gradient-to-r from-blue-100 to-green-100 p-8 rounded-xl shadow-md text-center"
                 >
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6">
                     🎉 Your merged PDF is ready!
                   </h3>
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                     <a
                       href={URL.createObjectURL(mergedFile)}
                       download={mergeFileName}
-                      className="bg-green-600 text-white py-2 px-6 rounded-lg font-bold shadow-lg hover:bg-green-700 transition-all"
+                      className="bg-green-600 text-white py-3 px-8 rounded-lg font-bold shadow-lg hover:bg-green-700 transition-all"
                     >
                       Download PDF
                     </a>
@@ -241,22 +273,24 @@ export default function Home() {
                       onClick={() =>
                         window.open(URL.createObjectURL(mergedFile), "_blank")
                       }
-                      className="bg-blue-600 text-white py-2 px-6 rounded-lg font-bold shadow-lg hover:bg-blue-700 transition-all"
+                      className="bg-blue-600 text-white py-3 px-8 rounded-lg font-bold shadow-lg hover:bg-blue-700 transition-all"
                     >
                       Preview PDF
                     </button>
-                    <button
-                      onClick={() => (window.location.href = "/")}
-                      className="bg-purple-600 text-white py-2 px-6 rounded-lg font-bold shadow-lg hover:bg-purple-700 transition-all"
+                    <motion.button
+                      onClick={handleReset}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-gray-800 text-white w-12 h-12 md:w-auto md:h-auto md:px-6 md:py-3 rounded-lg font-bold shadow-lg hover:bg-gray-900 transition-colors duration-200 flex items-center justify-center"
                     >
-                      + New
-                    </button>
+                      <FiPlus className="text-xl" />
+                      <span className="hidden md:inline ml-2">New Session</span>
+                    </motion.button>
                   </div>
-                  {/* Celebratory GIF below the result */}
                   <motion.img
                     src="/assets/img/tuzki.gif"
                     alt="Tuzki Celebration"
-                    className="mx-auto mt-4"
+                    className="mx-auto mt-8 w-32"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
@@ -273,17 +307,15 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="text-center text-sm text-gray-600 font-medium"
+            className="text-center text-sm text-gray-500 font-medium"
           >
-            🔒 Your files are processed locally and never leave your device,
+            🔒Your files are processed locally and never leave your device,
             ensuring maximum privacy and security.
           </motion.p>
-
           <p className="text-center text-sm text-gray-600 font-medium">
             Built with ❤️ by{" "}
             <span className="font-semibold text-blue-500">Aldo Tobing</span>
           </p>
-
           <div className="flex space-x-4">
             <a
               href="https://github.com/aldotobing"
