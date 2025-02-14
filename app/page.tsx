@@ -176,10 +176,10 @@ export default function Home() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentMode + "-uploader"}
-            initial={{ opacity: 0, y: -50, scale: 0.8, rotate: -10 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, y: 50, scale: 0.8, rotate: 10 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            initial={{ opacity: 0, y: 50, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -50, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
           >
             <FileUploader
               onFileUpload={handleFileUpload}
@@ -193,111 +193,136 @@ export default function Home() {
         {/* Mode-specific Content */}
         <AnimatePresence mode="wait">
           {currentMode === "compress" && (
-            <motion.div
-              key="compress-content"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden mt-6 p-8 sm:p-10"
-            >
-              <CompressionOptions
-                compressionLevel={compressionLevel}
-                setCompressionLevel={setCompressionLevel}
-              />
-              <motion.button
-                onClick={handleCompress}
-                disabled={files.length === 0 || isProcessing}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={actionButtonClasses}
+            <>
+              {/* Container untuk opsi compress */}
+              <motion.div
+                key="compress-options"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white rounded-2xl shadow-lg mt-6 p-8 sm:p-10"
               >
-                {isProcessing ? "Compressing..." : "Compress PDFs"}
-              </motion.button>
-              {isProcessing && (
-                <CompressionProgress files={files} progress={progress} />
-              )}
-              {compressedFiles.length > 0 && (
-                <DownloadSection
-                  compressedFiles={compressedFiles}
-                  onReset={handleReset}
+                <CompressionOptions
+                  compressionLevel={compressionLevel}
+                  setCompressionLevel={setCompressionLevel}
                 />
-              )}
-            </motion.div>
+              </motion.div>
+
+              {/* Container untuk tombol compress dan progress */}
+              <motion.div
+                key="compress-action"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                transition={{ duration: 0.5 }}
+                className="mt-4 flex flex-col items-center space-y-4"
+              >
+                <motion.button
+                  onClick={handleCompress}
+                  disabled={files.length === 0 || isProcessing}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={actionButtonClasses}
+                >
+                  {isProcessing ? "Compressing..." : "Compress PDFs"}
+                </motion.button>
+                {isProcessing && (
+                  <CompressionProgress files={files} progress={progress} />
+                )}
+                {compressedFiles.length > 0 && (
+                  <DownloadSection
+                    compressedFiles={compressedFiles}
+                    onReset={handleReset}
+                  />
+                )}
+              </motion.div>
+            </>
           )}
 
           {currentMode === "merge" && (
-            <motion.div
-              key="merge-content"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden mt-6 p-8 sm:p-10"
-            >
-              <motion.button
-                onClick={handleMerge}
-                disabled={files.length === 0 || isProcessing}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={actionButtonClasses}
+            <>
+              {/* Container tombol tanpa card styling */}
+              <motion.div
+                key="merge-button"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.5 }}
+                className="mt-6 flex justify-center"
               >
-                {isProcessing ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-white border-opacity-75"></span>
-                    <span>Merging...</span>
-                  </div>
-                ) : (
-                  "Merge PDFs"
-                )}
-              </motion.button>
+                <motion.button
+                  onClick={handleMerge}
+                  disabled={files.length === 0 || isProcessing}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={actionButtonClasses}
+                >
+                  {isProcessing ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-white border-opacity-75"></span>
+                      <span>Merging...</span>
+                    </div>
+                  ) : (
+                    "Merge PDFs"
+                  )}
+                </motion.button>
+              </motion.div>
 
+              {/* Container card untuk mergedFile */}
               {mergedFile && (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="mt-8 bg-gradient-to-r from-blue-100 to-green-100 p-8 rounded-xl shadow-md text-center"
+                  key="merge-card"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.5 }}
+                  className="mt-8 bg-white rounded-2xl shadow-lg p-8 sm:p-10"
                 >
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">
-                    🎉 Your merged PDF is ready!
-                  </h3>
-                  <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                    <a
-                      href={URL.createObjectURL(mergedFile)}
-                      download={mergeFileName}
-                      className="bg-green-600 text-white py-3 px-8 rounded-lg font-bold shadow-lg hover:bg-green-700 transition-all"
-                    >
-                      Download PDF
-                    </a>
-                    <button
-                      onClick={() =>
-                        window.open(URL.createObjectURL(mergedFile), "_blank")
-                      }
-                      className="bg-blue-600 text-white py-3 px-8 rounded-lg font-bold shadow-lg hover:bg-blue-700 transition-all"
-                    >
-                      Preview PDF
-                    </button>
-                    <motion.button
-                      onClick={handleReset}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-gray-800 text-white w-12 h-12 md:w-auto md:h-auto md:px-6 md:py-3 rounded-lg font-bold shadow-lg hover:bg-gray-900 transition-colors duration-200 flex items-center justify-center"
-                    >
-                      <FiPlus className="text-xl" />
-                      <span className="hidden md:inline ml-2">New Session</span>
-                    </motion.button>
+                  <div className="bg-gradient-to-r from-blue-100 to-green-100 p-8 rounded-xl shadow-md text-center">
+                    <h3 className="text-2xl font-bold text-gray-800 mb-6">
+                      🎉 Your merged PDF is ready!
+                    </h3>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+                      <a
+                        href={URL.createObjectURL(mergedFile)}
+                        download={mergeFileName}
+                        className="bg-green-600 text-white py-3 px-8 rounded-lg font-bold shadow-lg hover:bg-green-700 transition-all"
+                      >
+                        Download PDF
+                      </a>
+                      <button
+                        onClick={() =>
+                          window.open(URL.createObjectURL(mergedFile), "_blank")
+                        }
+                        className="bg-blue-600 text-white py-3 px-8 rounded-lg font-bold shadow-lg hover:bg-blue-700 transition-all"
+                      >
+                        Preview PDF
+                      </button>
+                      <motion.button
+                        onClick={handleReset}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-gray-800 text-white w-12 h-12 md:w-auto md:h-auto md:px-6 md:py-3 rounded-lg font-bold shadow-lg hover:bg-gray-900 transition-colors duration-200 flex items-center justify-center"
+                      >
+                        <FiPlus className="text-xl" />
+                        <span className="hidden md:inline ml-2">
+                          New Session
+                        </span>
+                      </motion.button>
+                    </div>
+                    <motion.img
+                      src="/assets/img/tuzki.gif"
+                      alt="Tuzki Celebration"
+                      className="mx-auto mt-8 w-32"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    />
                   </div>
-                  <motion.img
-                    src="/assets/img/tuzki.gif"
-                    alt="Tuzki Celebration"
-                    className="mx-auto mt-8 w-32"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  />
                 </motion.div>
               )}
-            </motion.div>
+            </>
           )}
         </AnimatePresence>
       </motion.div>
