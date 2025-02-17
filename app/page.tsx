@@ -352,6 +352,7 @@ export default function Home() {
                 src="/assets/img/github-mark.png"
                 alt="GitHub"
                 className="h-5 w-5"
+                loading="lazy"
               />
             </a>
             <a
@@ -360,7 +361,12 @@ export default function Home() {
               rel="noopener noreferrer"
               className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-300"
             >
-              <img src="/assets/img/x.png" alt="Twitter" className="h-4 w-4" />
+              <img
+                src="/assets/img/x.png"
+                alt="Twitter"
+                className="h-4 w-4"
+                loading="lazy"
+              />
             </a>
           </div>
         </div>
