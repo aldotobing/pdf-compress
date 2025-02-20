@@ -73,6 +73,6 @@ Now open **`http://localhost:3000`** in your browser! 🎉
 
 ## 📜 License
 
-MIT – Use it, modify it, break it, improve it! 🚀
+This project is licensed under the [MIT License](./LICENSE).
 
 💡 **Want to contribute?** Fork the repo & make a pull request! Let's make PDF compression better!
